@@ -1,5 +1,5 @@
 name: 'Detox CI Tests'
-on: [push]
+on: [pull_request]
 
 jobs:
   tests:
@@ -9,12 +9,12 @@ jobs:
       - uses: actions/checkout@master
       - uses: actions/setup-node@master
         with:
-          node-version: 12.6
+          node-version: 14
       - name: Setup - Install Yarn
         run: YARN_GPG=NO curl -o- -L https://yarnpkg.com/install.sh | bash
       - name: Setup - Install NPM Dependencies
-        run: yarn
+        run: yarn --frozen-lockfile
       - name: Setup - Install CocoaPods CLI
-        run: sudo gem install cocoapods
+        run: sudo gem install cocoapods -v 1.8.4
       - name: Run tests
         run: yarn ci

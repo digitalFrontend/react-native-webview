@@ -8,6 +8,54 @@ Secondly, we'd like the contribution experience to be as good as possible. While
 
 After you fork the repo, clone it to your machine, and make your changes, you'll want to test them in an app.
 
+There are two methods of testing:
+1) Testing within a clone of react-native-webview
+2) Testing in a new `react-native init` project
+
+### Testing within react-native-webview
+
+#### For all platforms:
+
+```sh
+yarn install
+```
+
+#### For Android:
+
+```sh
+yarn android
+```
+
+The Android example app will built, the Metro Bundler will launch, and the example app will be installed and started in the Android emulator.
+
+#### For iOS:
+
+```sh
+pod install --project-directory=ios
+yarn ios
+```
+
+The iOS example app will be built, the Metro bundler will launch, and the example app will be installed and started in the Simulator.
+
+#### For macOS:
+
+```sh
+pod install --project-directory=macos
+yarn macos
+```
+
+The macOS example app will be built, the Metro bundler will launch, and the example app will be installed and started.
+
+#### For Windows:
+
+```sh
+yarn windows
+```
+
+The Windows example app will be built, the Metro bundler will launch, and the example app will be installed and started.
+
+### Testing in a new `react-native init` project
+
 In a new `react-native init` project, do this:
 
 ```
@@ -46,3 +94,9 @@ $ yarn add ../react-native-webview && react-native link react-native-webview
 
 - We use TypeScript.
 - After pulling this repo and installing all dependencies, you can run tests using the command: `yarn ci`
+
+## Translations
+
+This file is available at:
+
+- [Brazilian portuguese](Contributing.portuguese.md)
