@@ -821,7 +821,7 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
           mCustomViewCallback = callback;
 
           mReactContext.getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-          mReactContext.getCurrentActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+          //mReactContext.getCurrentActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             mVideoView.setSystemUiVisibility(FULLSCREEN_SYSTEM_UI_VISIBILITY);
@@ -874,7 +874,7 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
           }
           
           mReactContext.getCurrentActivity().setRequestedOrientation(initialRequestedOrientation);
-          mReactContext.getCurrentActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+          //mReactContext.getCurrentActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
           mReactContext.removeLifecycleEventListener(this);
         }
