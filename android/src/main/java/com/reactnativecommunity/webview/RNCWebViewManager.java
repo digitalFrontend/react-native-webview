@@ -14,6 +14,7 @@ import android.net.http.SslError;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
 import android.text.TextUtils;
@@ -1545,6 +1546,15 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
 
     public void setNestedScrollEnabled(boolean nestedScrollEnabled) {
       this.nestedScrollEnabled = nestedScrollEnabled;
+    }
+
+    @Override
+    public boolean onCheckIsTextEditor() {
+       if (Looper.myLooper() == Looper.getMainLooper()) {
+          return super.onCheckIsTextEditor();
+       } else {
+          return false;
+       }
     }
 
     @Override
