@@ -14,7 +14,6 @@ import android.net.http.SslError;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
 import android.text.TextUtils;
@@ -812,6 +811,7 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
 
         @Override
         public void onShowCustomView(View view, CustomViewCallback callback) {
+          mReactContext.getCurrentActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
           if (mVideoView != null) {
             callback.onCustomViewHidden();
             return;
@@ -820,8 +820,7 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
           mVideoView = view;
           mCustomViewCallback = callback;
 
-          mReactContext.getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-          //mReactContext.getCurrentActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+          activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             mVideoView.setSystemUiVisibility(FULLSCREEN_SYSTEM_UI_VISIBILITY);
@@ -855,6 +854,7 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
 
         @Override
         public void onHideCustomView() {
+          mReactContext.getCurrentActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
           if (mVideoView == null) {
             return;
           }
@@ -872,9 +872,14 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
           }
-          
-          mReactContext.getCurrentActivity().setRequestedOrientation(initialRequestedOrientation);
-          //mReactContext.getCurrentActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+          rootView.removeView(mVideoView);
+          mCustomViewCallback.onCustomViewHidden();
+
+          mVideoView = null;
+          mCustomViewCallback = null;
+
+          activity.setRequestedOrientation(initialRequestedOrientation);
 
           mReactContext.removeLifecycleEventListener(this);
         }
@@ -1546,15 +1551,6 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
 
     public void setNestedScrollEnabled(boolean nestedScrollEnabled) {
       this.nestedScrollEnabled = nestedScrollEnabled;
-    }
-
-    @Override
-    public boolean onCheckIsTextEditor() {
-       if (Looper.myLooper() == Looper.getMainLooper()) {
-          return super.onCheckIsTextEditor();
-       } else {
-          return false;
-       }
     }
 
     @Override
